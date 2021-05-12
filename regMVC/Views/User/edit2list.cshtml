@@ -1,0 +1,110 @@
+﻿@model IEnumerable<regMVC.Models.user>
+
+@{
+    ViewBag.Title = "edit2list";
+}
+
+<head>
+    <style>
+        .body1 {
+            background-color: rgba(30, 30, 30, 0.90);
+        }
+
+        h2 {
+            color: antiquewhite;
+        }
+
+        th {
+            color: rgb(196, 196, 196);
+        }
+
+        td {
+            color: rgb(196, 196, 196);
+        }
+
+        .btn, .btn-default {
+            background-color: rgba(3, 169, 244, 0.68);
+            padding: 5px 10px;
+            text-decoration: none;
+            color: antiquewhite;
+            letter-spacing: 2px;
+            font-size: 13px;
+        }
+
+        .btn:before, btn-default:before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background: #03a9f4;
+            z-index: -1;
+            transition: transform 0.5s;
+            transform-origin: bottom right;
+            transform: scale(0);
+        }
+
+        .btn:hover:before, btn-default:hover:before {
+            transition: transform 0.5s;
+            transform-origin: top left;
+            transform: scale(1);
+        }
+
+        p {
+            color: rgb(196, 196, 196);
+        }
+    </style>
+</head>
+
+<body class="body1">
+    <h2>Modificar cuenta</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.correo)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cedula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pass)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.correo)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "edit", new { id = item.id }) |
+                    @Html.ActionLink("Eliminar", "delete", new { id = item.id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <div>
+        <p><a class="btn btn-default" href="~/home/index">&laquo; Regresar</a></p>
+    </div>
+</body>

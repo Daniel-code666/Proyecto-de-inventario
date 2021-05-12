@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Contacto";
+}
+
+<head>
+    <style>
+
+        .body1 {
+            background-image: url('../../Images/Bogota-Night.jpg');
+            background-size: cover;
+        }
+
+        .div1 {
+            box-sizing: border-box;
+            border-radius: 5px;
+            background: rgba(43, 42, 42, 0.78);
+        }
+
+        .h2_A{
+            color:antiquewhite;
+            text-align:center;
+        }
+
+        .col_a {
+            text-align: center;
+            color: rgb(196, 196, 196);
+        }
+    </style>
+</head>
+
+<body class="body1">
+    <div class="div1">
+        <h2 class="h2_A">@ViewBag.Title.</h2>
+
+        <address class="col_a">
+            <strong>SoftSystems<br /></strong>
+            Fotibronx, WA 98052-4666<br />
+            <abbr title="Teléfono">Tel:</abbr>
+            +57 3192378726
+        </address>
+
+        <address class="col_a">
+            <strong>Soporte:</strong>   <a href="mailto:dmartinezcifuentes@gmail.com">dmartinezcifuentes@gmail.com</a><br />
+        </address>
+    </div>
+</body>

@@ -1,0 +1,166 @@
+﻿@model regMVC.Models.user
+
+@{
+    ViewBag.Title = "delete";
+}
+
+<head>
+    <style>
+        .body1 {
+            background-color: rgba(30, 30, 30, 0.90);
+        }
+
+        .bt1, .btn-default1 {
+            background-color: rgba(155, 8, 8, 0.93);
+            padding: 5px 10px;
+            text-decoration: none;
+            color: antiquewhite;
+            letter-spacing: 2px;
+            font-size: 13px;
+            border-radius:3px;
+        }
+
+        .bt1:before, .btn-default1:before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background: antiquewhite;
+            z-index: -1;
+            transition: transform 0.5s;
+            transform-origin: bottom right;
+            transform: scale(0);
+        }
+
+        .btn1:hover:before, btn-default1:hover:before {
+            transition: transform 0.5s;
+            transform-origin: top left;
+            transform: scale(1);
+        }
+
+        .btn, .btn-default {
+            background-color: rgba(3, 169, 244, 0.68);
+            padding: 5px 10px;
+            text-decoration: none;
+            color: antiquewhite;
+            letter-spacing: 2px;
+            font-size: 13px;
+        }
+
+        .btn:before, btn-default:before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background: #03a9f4;
+            z-index: -1;
+            transition: transform 0.5s;
+            transform-origin: bottom right;
+            transform: scale(0);
+        }
+
+        .btn:hover:before, btn-default:hover:before {
+            transition: transform 0.5s;
+            transform-origin: top left;
+            transform: scale(1);
+        }
+
+        h2 {
+            color: antiquewhite;
+        }
+
+        h3, dt{
+            color: rgb(196, 196, 196);
+        }
+
+        dd{
+            color: mintcream;
+        }
+
+        p {
+            color: rgb(196, 196, 196);
+        }
+    </style>
+</head>
+
+<body class="body1">
+    <h2>Eliminar Usuario</h2>
+
+    <h3>¿Está seguro de eliminar al usuario @HttpContext.Current.User.Identity.Name?</h3>
+    @if (ViewBag.Status != null && Convert.ToBoolean(ViewBag.Status))
+    {
+        if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success">
+                <strong>Usuario eliminado</strong> @ViewBag.Message
+            </div>
+            <div>
+                @Html.ActionLink("Iniciar Sesión", "Login", "user")
+            </div>
+        }
+    }
+    else
+    {
+        <div>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.cedula)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.cedula)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.fname)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.fname)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.lname)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.lname)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.pass)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.pass)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.correo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.correo)
+                </dd>
+            </dl>
+        </div>
+
+        <p>
+
+        </p>
+
+        <div >
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <a class="btn btn-default" href="~/user/edit2list">&laquo; Regresar</a> | <input type="submit" value="Eliminar" class="btn1 btn-default1" />
+                </div>
+            }
+        </div>
+    }
+</body>
+
+
+
+

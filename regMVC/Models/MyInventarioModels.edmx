@@ -1,0 +1,412 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="inventarioModelDBA.Store" Provider="Npgsql" ProviderManifestToken="12.4" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="bodega">
+          <Key>
+            <PropertyRef Name="id_bodega" />
+          </Key>
+          <Property Name="id_bodega" Type="int4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cant_producto_inventario" Type="int4" />
+          <Property Name="fecha_ingreso" Type="date" />
+          <Property Name="cod_prod" Type="varchar" MaxLength="8000" />
+        </EntityType>
+        <EntityType Name="caja">
+          <Key>
+            <PropertyRef Name="id_caja" />
+          </Key>
+          <Property Name="dinero_final" Type="float8" />
+          <Property Name="fecha_dia" Type="date" />
+          <Property Name="fecha_mes" Type="date" />
+          <Property Name="fecha_año" Type="date" />
+          <Property Name="cantidad_vendida" Type="int4" />
+          <Property Name="id_caja" Type="int4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="8000" />
+          <Property Name="cod_prod" Type="varchar" MaxLength="8000" />
+          <Property Name="cedula" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="economia">
+          <Key>
+            <PropertyRef Name="id_economia" />
+          </Key>
+          <Property Name="dinero_total" Type="float8" />
+          <Property Name="id_economia" Type="int4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tot_money_bodega" Type="float8" />
+          <Property Name="tot_money_mostrador" Type="float8" />
+          <Property Name="id_bodega" Type="int4" />
+          <Property Name="cod_prod" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="mostrador">
+          <Key>
+            <PropertyRef Name="id_mostrador" />
+          </Key>
+          <Property Name="cant_prod_mostrador" Type="int4" Nullable="false" />
+          <Property Name="id_bodega" Type="int4" />
+          <Property Name="id_mostrador" Type="int4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cedula" Type="varchar" MaxLength="50" />
+          <Property Name="cod_prod" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="productos">
+          <Key>
+            <PropertyRef Name="codigo_prod" />
+          </Key>
+          <Property Name="id" Type="int4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="8000" />
+          <Property Name="marca" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="precio_compra" Type="float8" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="categoria" Type="varchar" MaxLength="8000" Nullable="false" />
+          <Property Name="precio_venta" Type="float8" Nullable="false" />
+          <Property Name="grupo" Type="varchar" MaxLength="8000" />
+          <Property Name="codigo_prod" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="fecha_expiracion" Type="date" />
+          <Property Name="cedula" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="cedula" />
+          </Key>
+          <Property Name="cedula" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="fname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="lname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id" Type="int4" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pass" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="correo" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <Association Name="fk_cedula">
+          <End Role="user" Type="Self.user" Multiplicity="0..1" />
+          <End Role="productos" Type="Self.productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="productos">
+              <PropertyRef Name="cedula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_cod_prod">
+          <End Role="productos" Type="Self.productos" Multiplicity="0..1" />
+          <End Role="bodega" Type="Self.bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos">
+              <PropertyRef Name="codigo_prod" />
+            </Principal>
+            <Dependent Role="bodega">
+              <PropertyRef Name="cod_prod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_id_bodega">
+          <End Role="bodega" Type="Self.bodega" Multiplicity="0..1" />
+          <End Role="economia" Type="Self.economia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bodega">
+              <PropertyRef Name="id_bodega" />
+            </Principal>
+            <Dependent Role="economia">
+              <PropertyRef Name="id_bodega" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idBodega">
+          <End Role="bodega" Type="Self.bodega" Multiplicity="0..1" />
+          <End Role="mostrador" Type="Self.mostrador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bodega">
+              <PropertyRef Name="id_bodega" />
+            </Principal>
+            <Dependent Role="mostrador">
+              <PropertyRef Name="id_bodega" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="inventarioModelDBAStoreContainer">
+          <EntitySet Name="bodega" EntityType="Self.bodega" Schema="public" store:Type="Tables" />
+          <EntitySet Name="caja" EntityType="Self.caja" Schema="public" store:Type="Tables" />
+          <EntitySet Name="economia" EntityType="Self.economia" Schema="public" store:Type="Tables" />
+          <EntitySet Name="mostrador" EntityType="Self.mostrador" Schema="public" store:Type="Tables" />
+          <EntitySet Name="productos" EntityType="Self.productos" Schema="public" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="public" store:Type="Tables" />
+          <AssociationSet Name="fk_cedula" Association="Self.fk_cedula">
+            <End Role="user" EntitySet="user" />
+            <End Role="productos" EntitySet="productos" />
+          </AssociationSet>
+          <AssociationSet Name="fk_cod_prod" Association="Self.fk_cod_prod">
+            <End Role="productos" EntitySet="productos" />
+            <End Role="bodega" EntitySet="bodega" />
+          </AssociationSet>
+          <AssociationSet Name="fk_id_bodega" Association="Self.fk_id_bodega">
+            <End Role="bodega" EntitySet="bodega" />
+            <End Role="economia" EntitySet="economia" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idBodega" Association="Self.fk_idBodega">
+            <End Role="bodega" EntitySet="bodega" />
+            <End Role="mostrador" EntitySet="mostrador" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="inventarioModelDBA" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="bodega">
+          <Key>
+            <PropertyRef Name="id_bodega" />
+          </Key>
+          <Property Name="id_bodega" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cant_producto_inventario" Type="Int32" />
+          <Property Name="fecha_ingreso" Type="DateTime" Precision="0" />
+          <Property Name="cod_prod" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="productos" Relationship="Self.fk_cod_prod" FromRole="bodega" ToRole="productos" />
+          <NavigationProperty Name="mostrador" Relationship="Self.fk_idBodega" FromRole="bodega" ToRole="mostrador" />
+          <NavigationProperty Name="economia" Relationship="inventarioModelDBA.fk_idbodega1" FromRole="bodega" ToRole="economia" />
+        </EntityType>
+        <EntityType Name="mostrador">
+          <Key>
+            <PropertyRef Name="id_mostrador" />
+          </Key>
+          <Property Name="id_mostrador" Type="Int32" Nullable="false" />
+          <Property Name="cant_prod_mostrador" Type="Int32" Nullable="false" />
+          <Property Name="id_bodega" Type="Int32" />
+          <NavigationProperty Name="bodega" Relationship="Self.fk_idBodega" FromRole="mostrador" ToRole="bodega" />
+          <Property Name="cedula" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cod_prod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="productos">
+          <Key>
+            <PropertyRef Name="codigo_prod" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+          <Property Name="marca" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="precio_compra" Type="Double" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+          <Property Name="categoria" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="precio_venta" Type="Double" Nullable="false" />
+          <Property Name="grupo" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+          <Property Name="codigo_prod" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="bodega" Relationship="Self.fk_cod_prod" FromRole="productos" ToRole="bodega" />
+          <Property Name="fecha_expiracion" Type="DateTime" Precision="0" />
+          <Property Name="cedula" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="user" Relationship="inventarioModelDBA.fk_cedula" FromRole="productos" ToRole="user" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="cedula" />
+          </Key>
+          <Property Name="cedula" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pass" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="correo" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="productos" Relationship="inventarioModelDBA.fk_cedula" FromRole="user" ToRole="productos" />
+        </EntityType>
+        <Association Name="fk_cod_prod">
+          <End Role="productos" Type="Self.productos" Multiplicity="0..1" />
+          <End Role="bodega" Type="Self.bodega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="productos">
+              <PropertyRef Name="codigo_prod" />
+            </Principal>
+            <Dependent Role="bodega">
+              <PropertyRef Name="cod_prod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_idBodega">
+          <End Role="bodega" Type="Self.bodega" Multiplicity="0..1" />
+          <End Role="mostrador" Type="Self.mostrador" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bodega">
+              <PropertyRef Name="id_bodega" />
+            </Principal>
+            <Dependent Role="mostrador">
+              <PropertyRef Name="id_bodega" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="inventarioEntitiesDBA" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="bodega" EntityType="Self.bodega" />
+          <EntitySet Name="mostrador" EntityType="Self.mostrador" />
+          <EntitySet Name="productos" EntityType="Self.productos" />
+          <EntitySet Name="user" EntityType="Self.user" />
+          <AssociationSet Name="fk_cod_prod" Association="Self.fk_cod_prod">
+            <End Role="productos" EntitySet="productos" />
+            <End Role="bodega" EntitySet="bodega" />
+          </AssociationSet>
+          <AssociationSet Name="fk_idBodega" Association="Self.fk_idBodega">
+            <End Role="bodega" EntitySet="bodega" />
+            <End Role="mostrador" EntitySet="mostrador" />
+          </AssociationSet>
+          <EntitySet Name="economia" EntityType="inventarioModelDBA.economia" />
+          <AssociationSet Name="fk_idbodega1" Association="inventarioModelDBA.fk_idbodega1">
+            <End Role="bodega" EntitySet="bodega" />
+            <End Role="economia" EntitySet="economia" />
+          </AssociationSet>
+          <EntitySet Name="caja" EntityType="inventarioModelDBA.caja" />
+          <AssociationSet Name="fk_cedula" Association="inventarioModelDBA.fk_cedula">
+            <End Role="user" EntitySet="user" />
+            <End Role="productos" EntitySet="productos" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="economia">
+          <Key>
+            <PropertyRef Name="id_economia" />
+          </Key>
+          <Property Name="dinero_total" Type="Double" />
+          <Property Name="id_economia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tot_money_bodega" Type="Double" />
+          <Property Name="tot_money_mostrador" Type="Double" />
+          <Property Name="id_bodega" Type="Int32" />
+          <NavigationProperty Name="bodega" Relationship="inventarioModelDBA.fk_idbodega1" FromRole="economia" ToRole="bodega" />
+          <Property Name="cod_prod" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="fk_idbodega1">
+          <End Type="inventarioModelDBA.bodega" Role="bodega" Multiplicity="0..1" />
+          <End Type="inventarioModelDBA.economia" Role="economia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="bodega">
+              <PropertyRef Name="id_bodega" />
+            </Principal>
+            <Dependent Role="economia">
+              <PropertyRef Name="id_bodega" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="caja">
+          <Key>
+            <PropertyRef Name="id_caja" />
+          </Key>
+          <Property Name="dinero_final" Type="Double" />
+          <Property Name="fecha_dia" Type="DateTime" Precision="0" />
+          <Property Name="fecha_mes" Type="DateTime" Precision="0" />
+          <Property Name="fecha_año" Type="DateTime" Precision="0" />
+          <Property Name="cantidad_vendida" Type="Int32" />
+          <Property Name="id_caja" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+          <Property Name="cod_prod" Type="String" MaxLength="8000" FixedLength="false" Unicode="true" />
+          <Property Name="cedula" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="fk_cedula">
+          <End Type="inventarioModelDBA.user" Role="user" Multiplicity="0..1" />
+          <End Type="inventarioModelDBA.productos" Role="productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="cedula" />
+            </Principal>
+            <Dependent Role="productos">
+              <PropertyRef Name="cedula" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="inventarioModelDBAStoreContainer" CdmEntityContainer="inventarioEntitiesDBA">
+          <EntitySetMapping Name="bodega">
+            <EntityTypeMapping TypeName="inventarioModelDBA.bodega">
+              <MappingFragment StoreEntitySet="bodega">
+                <ScalarProperty Name="id_bodega" ColumnName="id_bodega" />
+                <ScalarProperty Name="cant_producto_inventario" ColumnName="cant_producto_inventario" />
+                <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
+                <ScalarProperty Name="cod_prod" ColumnName="cod_prod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mostrador">
+            <EntityTypeMapping TypeName="inventarioModelDBA.mostrador">
+              <MappingFragment StoreEntitySet="mostrador">
+                <ScalarProperty Name="cod_prod" ColumnName="cod_prod" />
+                <ScalarProperty Name="cedula" ColumnName="cedula" />
+                <ScalarProperty Name="id_mostrador" ColumnName="id_mostrador" />
+                <ScalarProperty Name="cant_prod_mostrador" ColumnName="cant_prod_mostrador" />
+                <ScalarProperty Name="id_bodega" ColumnName="id_bodega" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="productos">
+            <EntityTypeMapping TypeName="inventarioModelDBA.productos">
+              <MappingFragment StoreEntitySet="productos">
+                <ScalarProperty Name="cedula" ColumnName="cedula" />
+                <ScalarProperty Name="fecha_expiracion" ColumnName="fecha_expiracion" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="marca" ColumnName="marca" />
+                <ScalarProperty Name="precio_compra" ColumnName="precio_compra" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="categoria" ColumnName="categoria" />
+                <ScalarProperty Name="precio_venta" ColumnName="precio_venta" />
+                <ScalarProperty Name="grupo" ColumnName="grupo" />
+                <ScalarProperty Name="codigo_prod" ColumnName="codigo_prod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="inventarioModelDBA.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="cedula" ColumnName="cedula" />
+                <ScalarProperty Name="fname" ColumnName="fname" />
+                <ScalarProperty Name="lname" ColumnName="lname" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="economia">
+            <EntityTypeMapping TypeName="inventarioModelDBA.economia">
+              <MappingFragment StoreEntitySet="economia">
+                <ScalarProperty Name="cod_prod" ColumnName="cod_prod" />
+                <ScalarProperty Name="id_bodega" ColumnName="id_bodega" />
+                <ScalarProperty Name="tot_money_mostrador" ColumnName="tot_money_mostrador" />
+                <ScalarProperty Name="tot_money_bodega" ColumnName="tot_money_bodega" />
+                <ScalarProperty Name="id_economia" ColumnName="id_economia" />
+                <ScalarProperty Name="dinero_total" ColumnName="dinero_total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="caja">
+            <EntityTypeMapping TypeName="inventarioModelDBA.caja">
+              <MappingFragment StoreEntitySet="caja">
+                <ScalarProperty Name="cedula" ColumnName="cedula" />
+                <ScalarProperty Name="cod_prod" ColumnName="cod_prod" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_caja" ColumnName="id_caja" />
+                <ScalarProperty Name="cantidad_vendida" ColumnName="cantidad_vendida" />
+                <ScalarProperty Name="fecha_año" ColumnName="fecha_año" />
+                <ScalarProperty Name="fecha_mes" ColumnName="fecha_mes" />
+                <ScalarProperty Name="fecha_dia" ColumnName="fecha_dia" />
+                <ScalarProperty Name="dinero_final" ColumnName="dinero_final" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

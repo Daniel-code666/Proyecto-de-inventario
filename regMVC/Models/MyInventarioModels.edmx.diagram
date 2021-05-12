@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="165346ffb617412db99f5fa6eafe4709" Name="Diagram1">
+        <EntityTypeShape EntityType="inventarioModelDBA.bodega" Width="1.5" PointX="2.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="inventarioModelDBA.mostrador" Width="1.5" PointX="5" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="inventarioModelDBA.productos" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="inventarioModelDBA.user" Width="1.5" PointX="0.5" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="inventarioModelDBA.fk_cod_prod" ManuallyRouted="false" />
+        <AssociationConnector Association="inventarioModelDBA.fk_idBodega" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="inventarioModelDBA.economia" Width="1.5" PointX="2.75" PointY="4.125" />
+        <AssociationConnector Association="inventarioModelDBA.fk_idbodega1" />
+        <EntityTypeShape EntityType="inventarioModelDBA.caja" Width="1.5" PointX="5" PointY="3.875" />
+        <AssociationConnector Association="inventarioModelDBA.fk_cedula" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

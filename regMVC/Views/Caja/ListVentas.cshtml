@@ -1,0 +1,165 @@
+﻿@model IEnumerable<regMVC.Models.caja>
+
+@{
+    ViewBag.Title = "ListVentas";
+}
+
+<head>
+    <style>
+        .body1 {
+            background-color: rgba(30, 30, 30, 0.90);
+        }
+
+        h2 {
+            color: antiquewhite;
+        }
+
+        p, span {
+            color: rgb(196, 196, 196);
+        }
+
+        table, table-striped {
+            background-color: rgba(79, 79, 79, 0.91);
+        }
+
+        th {
+            color: rgb(196, 196, 196);
+        }
+
+        td {
+            color: rgb(196, 196, 196);
+        }
+
+        tr {
+            color: rgb(196, 196, 196)
+        }
+
+        .btn, .btn-default {
+            background-color: rgba(3, 169, 244, 0.68);
+            padding: 5px 10px;
+            text-decoration: none;
+            color: antiquewhite;
+            letter-spacing: 2px;
+            font-size: 13px;
+        }
+
+        .btn:before, btn-default:before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background: #03a9f4;
+            z-index: -1;
+            transition: transform 0.5s;
+            transform-origin: bottom right;
+            transform: scale(0);
+        }
+
+        .btn:hover:before, btn-default:hover:before {
+            transition: transform 0.5s;
+            transform-origin: top left;
+            transform: scale(1);
+        }
+
+    </style>
+</head>
+
+<body class="body1">
+    <h2>Lista de ventas</h2>
+
+    <p align="right">
+        @Html.ActionLink("Generar reporte de ventas global", "SalesToPdf")
+    </p>
+
+    <center>
+        @using (Html.BeginForm("ListVentas2", "Caja", FormMethod.Post))
+        {
+            <span>Fecha de inicio </span> <input type="date" name="start" required/>
+            
+            <span> Fecha de fin </span><input type="date" name="end" required/> 
+
+            <input type="submit" value="Buscar" class="btn btn-default"/>
+        }
+    </center>
+
+    <p>
+
+    </p>
+
+    <div align="right">
+        <a class="btn btn-default" href="~/caja/SalesChart"> Estado de ventas &raquo;</a>
+    </div>
+
+    <p>
+
+    </p>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.dinero_final)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha_dia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha_mes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha_año)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cantidad_vendida)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cod_prod)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dinero_final)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fecha_dia)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fecha_mes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fecha_año)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cantidad_vendida)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cod_prod)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <div>
+        <p align="center">
+            <strong>
+                Total en ventas
+            </strong>
+        </p>
+        <p align="center">
+            @Model.Sum(x => x.dinero_final)
+        </p>
+    </div>
+
+    <div align="left">
+        <a class="btn btn-default" href="~/user/inventarioCtrl">&laquo; Regresar</a>
+    </div>
+</body>
